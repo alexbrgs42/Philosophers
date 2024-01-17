@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/17 10:42:01 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/17 14:20:44 by abourgeo         ###   ########.fr       */
+/*   Created: 2024/01/17 14:20:21 by abourgeo          #+#    #+#             */
+/*   Updated: 2024/01/17 14:27:27 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-void	*routine(void *start_time)
+int	ft_strlen(char *str)
 {
-	pthread_exit(NULL);
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
 }
 
-size_t	get_time(void)
+int	ft_atoi(char *str, int *num)
 {
-	struct timeval	tv;
-	
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-}
+	int	number;
+	int	i;
 
-int	main(int argc, char *argv[])
-{
-	return (0);
+	if (ft_strlen(str) > 10)
+		return (0);
+	number = 0;
+	while (str[i] >= '0' && str[i] <= '9')
+		number = number * 10 + str[i++] - '0';
+	*num = number;
+	return (str[i] == '\0');
 }
