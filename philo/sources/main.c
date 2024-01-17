@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:42:01 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/17 23:04:01 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/17 23:09:21 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	philo_impair(t_data *data, int nb_philo)
 	usleep(data->time_to_eat * 1000);
 	pthread_mutex_unlock(&(data->mutex_forks[nb_philo - 1]));
 	pthread_mutex_unlock(&(data->mutex_forks[nb_philo]));
-	message(data, "is thinking", nb_philo);
 }
 
 void	eating(t_data *data, int nb_philo)
@@ -66,12 +65,7 @@ void	eating(t_data *data, int nb_philo)
 		pthread_exit(NULL);
 	pthread_mutex_unlock(&(data->mutex_struct));
 }
-
-void	sleeping(t_data *data, int nb_philo)
-{
-	usleep(data->time_to_sleep * 1000);
-}
-
+// quand mange suffisamment, il faut continuer
 void	*routine(void *data_void)
 {
 	t_data	*data;
@@ -86,7 +80,9 @@ void	*routine(void *data_void)
 	while (1)
 	{
 		eating(data, nb_philo);
-		sleeping(data, nb_philo);
+		message(data, "is sleeping", nb_philo);
+		usleep(data->time_to_sleep * 1000);
+		message(data, "is thinking", nb_philo);
 	}
 }
 
