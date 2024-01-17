@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:20:21 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/17 14:27:27 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/17 23:01:49 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,20 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
+size_t	get_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+}
+
 int	ft_atoi(char *str, int *num)
 {
 	int	number;
 	int	i;
 
+	i = 0;
 	if (ft_strlen(str) > 10)
 		return (0);
 	number = 0;

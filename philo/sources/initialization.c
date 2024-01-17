@@ -1,0 +1,94 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   initialization.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/17 21:03:54 by abourgeo          #+#    #+#             */
+/*   Updated: 2024/01/17 23:03:10 by abourgeo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/philo.h"
+
+int	init_data(t_data *data, char *argv[])
+{
+	if (init_numbers(data, argv) == 0)
+		return (0);
+	if (init_forks(data) == 0)
+		return (0);
+	if (pthread_mutex_init(&(data->mutex_printf), NULL) != 0)
+		return (first_free(data, 0, 0, 0));
+	if (pthread_mutex_init(&(data->mutex_struct), NULL) != 0)
+		return (first_free(data, 1, 0, 0));
+	if (pthread_mutex_init(&(data->mutex_forks_var), NULL) != 0)
+		return (first_free(data, 1, 1, 0));
+	data->philo = malloc(data->number_of_philosophers * sizeof(pthread_t));
+	if (data->philo == NULL)
+		return (first_free(data, 1, 1, 1));
+	data->start_time = get_time();
+	return (1);
+}
+
+int	init_numbers(t_data *data, char *argv[])
+{
+	int	return_val;
+
+	return_val = 0;
+	data->counter = 0;
+	data->died = 0;
+	return_val += ft_atoi(argv[1], &(data->number_of_philosophers));
+	return_val += ft_atoi(argv[2], &(data->time_to_die));
+	return_val += ft_atoi(argv[3], &(data->time_to_eat));
+	return_val += ft_atoi(argv[4], &(data->time_to_sleep));
+	if (argv[5] != NULL)
+		return_val += ft_atoi(argv[5],
+				&(data->number_of_times_each_philosopher_must_eat));
+	else
+	{
+		return_val++;
+		data->number_of_times_each_philosopher_must_eat = -1;
+	}
+	return (return_val == 5);
+}
+
+int	init_mutex_forks(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->number_of_philosophers)
+	{
+		if (pthread_mutex_init(&(data->mutex_forks[i]), NULL) != 0)
+		{
+			while (--i >= 0)
+				pthread_mutex_destroy(&(data->mutex_forks[i]));
+			free(data->forks);
+			free(data->mutex_forks);
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
+int	init_forks(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	data->forks = malloc(data->number_of_philosophers * sizeof(int));
+	if (data->forks == NULL)
+		return (0);
+	while (i < data->number_of_philosophers)
+		(data->forks)[i++] = 1;
+	data->mutex_forks = malloc(data->number_of_philosophers
+			* sizeof(pthread_mutex_t));
+	if (data->mutex_forks == NULL)
+	{
+		free(data->forks);
+		return (0);
+	}
+	return (init_mutex_forks(data));
+}

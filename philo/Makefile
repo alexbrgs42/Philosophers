@@ -1,4 +1,7 @@
-SRC = sources/main.c
+SRC =	sources/freeing.c \
+		sources/initialization.c \
+		sources/utils.c \
+		sources/main.c
 
 OBJ = ${SRC:.c=.o}
 
