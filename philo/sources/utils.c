@@ -6,11 +6,27 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:20:21 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/17 23:01:49 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/18 19:49:16 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+
+void	message(t_data *data, char *str, int nb_philo)
+{
+	pthread_mutex_lock(&(data->mutex_printf));
+	printf("%zu %d %s\n", get_time() - data->start_time, nb_philo, str);
+	pthread_mutex_unlock(&(data->mutex_printf));
+}
+
+void	ft_usleep(size_t t)
+{
+	size_t	curr;
+
+	curr = get_time();
+	while (get_time() - curr < t)
+		usleep(100);
+}
 
 int	ft_strlen(char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:53:40 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/17 22:02:08 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/18 19:20:57 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,47 @@ typedef struct s_data
 	int				*forks;
 	pthread_t		*philo;
 	int				died;
-	int				counter; // numeroter philos
-	int				number_of_philosophers; // number_of_philosophers
-	int				time_to_die; // time_to_die
-	int				time_to_eat; // time_to_eat
-	int				time_to_sleep; // time_to_sleep
-	int				number_of_times_each_philosopher_must_eat; // number_of_times_each_philosopher_must_eat
+	int				counter;
+	int				number_of_philosophers;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				number_of_times_each_philosopher_must_eat;
+	int				philo_done;
 	size_t			start_time;
 	pthread_mutex_t	mutex_struct;
+	pthread_mutex_t	mutex_died;
+	pthread_mutex_t	mutex_meals;
 	pthread_mutex_t	mutex_printf;
 	pthread_mutex_t	*mutex_forks;
 	pthread_mutex_t	mutex_forks_var;
+	pthread_mutex_t	mutex_begin;
 }	t_data;
+
+typedef struct s_philo
+{
+	int		nb_philo;
+	int		tte;
+	int		tts;
+	int		ttd;
+	int		total;
+	size_t	last_meal;
+}	t_philo;
+
+// eating.c
+
+void	take_fork(t_data *data, t_philo philo, int first_fork, int second_fork);
+void	philo_pair(t_data *data, t_philo philo);
+void	philo_impair(t_data *data, t_philo philo);
+void	eating(t_data *data, t_philo philo);
+void	increment_number_meals(t_data *data, t_philo philo, int *i);
+
+// finish.c
+
+void	check_for_dead(t_data *data);
+void	philo_died(t_data *data, t_philo philo);
+void	philo_finished(t_data *data, t_philo philo);
+void	about_to_die(t_data *data, t_philo philo);
 
 // freeing.c
 
@@ -49,13 +78,18 @@ int		init_data(t_data *data, char *argv[]);
 int		init_numbers(t_data *data, char *argv[]);
 int		init_mutex_forks(t_data *data);
 int		init_forks(t_data *data);
+void	init_t_philo(t_data *data, t_philo *philo);
 
 // utils.c
 
+void	message(t_data *data, char *str, int nb_philo);
+void	ft_usleep(size_t t);
 int		ft_strlen(char *str);
 size_t	get_time(void);
 int		ft_atoi(char *str, int *number);
 
 // main.c
+
+void	*routine(void *data_void);
 
 #endif

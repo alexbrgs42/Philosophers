@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 21:05:49 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/17 23:02:47 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/18 19:23:39 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ int	final_free(t_data *data, int nb_thread, int join, int return_val)
 
 	i = 0;
 	first_free(data, 1, 1, 1);
+	pthread_mutex_destroy(&(data->mutex_died));
+	pthread_mutex_destroy(&(data->mutex_meals));
+	pthread_mutex_destroy(&(data->mutex_begin));
 	if (join == 1)
 	{
 		while (i < nb_thread)

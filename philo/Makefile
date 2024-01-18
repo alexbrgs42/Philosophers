@@ -1,6 +1,8 @@
 SRC =	sources/freeing.c \
 		sources/initialization.c \
 		sources/utils.c \
+		sources/eating.c \
+		sources/finish.c \
 		sources/main.c
 
 OBJ = ${SRC:.c=.o}
