@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 21:03:54 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/18 19:51:48 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:22:04 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@ int	init_data(t_data *data, char *argv[])
 		return (first_free(data, 0, 0, 0));
 	if (pthread_mutex_init(&(data->mutex_struct), NULL) != 0)
 		return (first_free(data, 1, 0, 0));
-	if (pthread_mutex_init(&(data->mutex_forks_var), NULL) != 0)
-		return (first_free(data, 1, 1, 0));
 	if (pthread_mutex_init(&(data->mutex_died), NULL) != 0)
-		return (first_free(data, 1, 1, 1));
+		return (first_free(data, 1, 1, 0));
 	if (pthread_mutex_init(&(data->mutex_meals), NULL) != 0)
 	{
 		pthread_mutex_destroy(&(data->mutex_died));
@@ -69,35 +67,6 @@ int	init_numbers(t_data *data, char *argv[])
 	return (return_val == 5);
 }
 
-int	init_mutex_forks(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->number_of_philosophers)
-	{
-		if (pthread_mutex_init(&(data->mutex_forks[i]), NULL) != 0)
-		{
-			while (--i >= 0)
-				pthread_mutex_destroy(&(data->mutex_forks[i]));
-			free(data->forks);
-			free(data->mutex_forks);
-			return (0);
-		}
-		i++;
-	}
-	i = 0;
-	if (pthread_mutex_init(&(data->mutex_begin), NULL) != 0)
-	{
-		while (i < data->number_of_philosophers)
-			pthread_mutex_destroy(&(data->mutex_forks[i++]));
-		free(data->forks);
-		free(data->mutex_forks);
-		return (0);
-	}
-	return (1);
-}
-
 int	init_forks(t_data *data)
 {
 	int	i;
@@ -128,5 +97,7 @@ void	init_t_philo(t_data *data, t_philo *philo)
 	philo->nb_philo = data->counter++;
 	if (philo->nb_philo == 0)
 		data->start_time = get_time();
+	philo->start_time = data->start_time;
+	philo->last_meal = data->start_time + 1000;
 	pthread_mutex_unlock(&(data->mutex_struct));
 }

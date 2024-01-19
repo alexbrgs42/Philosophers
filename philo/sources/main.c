@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:42:01 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/18 20:22:45 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/19 15:04:35 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,20 @@ void	*routine(void *data_void)
 	data = (t_data *) data_void;
 	pthread_mutex_unlock(&(data->mutex_struct));
 	init_t_philo(data, &philo);
-	pthread_mutex_lock(&(data->mutex_begin));
-	if (philo.nb_philo == 0)
-	{
-		usleep(1000);
-		pthread_mutex_lock(&(data->mutex_struct));
-		data->start_time = get_time();
-		pthread_mutex_unlock(&(data->mutex_struct));
-	}
-	philo.last_meal = data->start_time;
-	pthread_mutex_unlock(&(data->mutex_begin));
+	while (get_time() - philo.start_time < 1000)
+		;
 	while (1)
 	{
 		eating(data, philo);
 		increment_number_meals(data, philo, &i);
 		philo.last_meal = get_time() - philo.tte;
-		message(data, "is sleeping", philo.nb_philo);
+		message(data, philo, "is sleeping");
 		if (get_time() - philo.last_meal + philo.tts > philo.ttd)
 			about_to_die(data, philo);
 		check_for_dead(data);
-		usleep(philo.tts* 1000);
+		usleep(philo.tts * 1000);
 		check_for_dead(data);
-		message(data, "is thinking", philo.nb_philo);
+		message(data, philo, "is thinking");
 	}
 }
 
@@ -65,7 +57,6 @@ int	main(int argc, char *argv[])
 		i = 0;
 		while (i < data.number_of_philosophers)
 			pthread_join(data.philo[i++], NULL);
-		printf("Done\n");
 		final_free(&data, i, 0, 1);
 	}
 	return (0);
@@ -84,6 +75,6 @@ argv[5] -> max_meals pas negatif ou nul
 
 // faire un mutex par var forks[i]
 
-// premier et denier ok ?
+// premier et dernier ok ?
 
 */

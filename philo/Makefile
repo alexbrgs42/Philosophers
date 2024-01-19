@@ -1,5 +1,6 @@
 SRC =	sources/freeing.c \
 		sources/initialization.c \
+		sources/init_mutex.c \
 		sources/utils.c \
 		sources/eating.c \
 		sources/finish.c \

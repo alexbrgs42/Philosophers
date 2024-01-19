@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:53:40 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/18 19:20:57 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:00:56 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_data
 	pthread_mutex_t	mutex_meals;
 	pthread_mutex_t	mutex_printf;
 	pthread_mutex_t	*mutex_forks;
-	pthread_mutex_t	mutex_forks_var;
+	pthread_mutex_t	*mutex_forks_var;
 	pthread_mutex_t	mutex_begin;
 }	t_data;
 
@@ -50,6 +50,7 @@ typedef struct s_philo
 	int		ttd;
 	int		total;
 	size_t	last_meal;
+	size_t	start_time;
 }	t_philo;
 
 // eating.c
@@ -76,13 +77,17 @@ int		final_free(t_data *data, int nb_thread, int join, int return_val);
 
 int		init_data(t_data *data, char *argv[]);
 int		init_numbers(t_data *data, char *argv[]);
-int		init_mutex_forks(t_data *data);
 int		init_forks(t_data *data);
 void	init_t_philo(t_data *data, t_philo *philo);
 
+// init_mutex.c
+
+int		init_mutex_forks_var(t_data *data);
+int		init_mutex_forks(t_data *data);
+
 // utils.c
 
-void	message(t_data *data, char *str, int nb_philo);
+void	message(t_data *data, t_philo philo, char *str);
 void	ft_usleep(size_t t);
 int		ft_strlen(char *str);
 size_t	get_time(void);

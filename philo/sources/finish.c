@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 18:55:45 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/18 19:15:11 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/19 12:47:12 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	check_for_dead(t_data *data)
 
 void	philo_died(t_data *data, t_philo philo)
 {
-	message(data, "died", philo.nb_philo);
+	message(data, philo, "died");
 	pthread_mutex_lock(&(data->mutex_died));
 	data->died = 1;
 	pthread_mutex_unlock(&(data->mutex_died));
