@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:47:53 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/19 14:01:00 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/19 15:08:49 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	init_mutex_forks_var(t_data *data)
 	int	i;
 
 	i = 0;
-	data->mutex_forks_var = malloc(data->number_of_philosophers * sizeof(pthread_mutex_t));
+	data->mutex_forks_var = malloc(data->number_of_philosophers
+			* sizeof(pthread_mutex_t));
 	if (data->mutex_forks == NULL)
 		return (first_free(data, 0, 0, 0));
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:20:21 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/19 14:22:02 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/19 15:08:39 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	message(t_data *data, t_philo philo, char *str)
 {
 	pthread_mutex_lock(&(data->mutex_printf));
-	printf("%zu %d %s\n", get_time() - philo.start_time - 1000, philo.nb_philo, str);
+	printf("%zu %d %s\n", get_time() - philo.start_time - 1000,
+		philo.nb_philo, str);
 	pthread_mutex_unlock(&(data->mutex_printf));
 }
 
