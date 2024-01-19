@@ -4,6 +4,7 @@ SRC =	sources/freeing.c \
 		sources/utils.c \
 		sources/eating.c \
 		sources/finish.c \
+		sources/count_meals.c \
 		sources/main.c
 
 OBJ = ${SRC:.c=.o}
@@ -13,6 +14,9 @@ CC = cc
 FLAGS = -Wall -Werror -Wextra -pthread
 
 NAME = philo
+
+.c.o:
+	$(CC) $(FLAGS) -c $< -o $(<:.c=.o)
 
 $(NAME):	$(OBJ)
 	$(CC) $(FLAGS) $(OBJ) -o $(NAME)

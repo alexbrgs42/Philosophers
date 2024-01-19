@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:20:21 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/19 15:08:39 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/19 15:46:21 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,23 @@ size_t	get_time(void)
 
 int	ft_atoi(char *str, int *num)
 {
-	int	number;
-	int	i;
+	long	number;
+	int		i;
 
 	i = 0;
 	if (ft_strlen(str) > 10)
+	{
+		*num = 0;
 		return (0);
+	}
 	number = 0;
 	while (str[i] >= '0' && str[i] <= '9')
 		number = number * 10 + str[i++] - '0';
-	*num = number;
+	if (number > INT_MAX)
+	{
+		*num = 0;
+		return (0);
+	}
+	*num = (int) number;
 	return (str[i] == '\0');
 }

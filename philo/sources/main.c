@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:42:01 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/19 15:04:35 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:09:18 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,32 @@ void	*routine(void *data_void)
 	init_t_philo(data, &philo);
 	while (get_time() - philo.start_time < 1000)
 		;
+	single_philo(data, philo);
 	while (1)
 	{
 		eating(data, philo);
 		increment_number_meals(data, philo, &i);
 		philo.last_meal = get_time() - philo.tte;
 		message(data, philo, "is sleeping");
-		if (get_time() - philo.last_meal + philo.tts > philo.ttd)
+		if ((int)(get_time() - philo.last_meal + philo.tts) > philo.ttd)
 			about_to_die(data, philo);
 		check_for_dead(data);
 		usleep(philo.tts * 1000);
 		check_for_dead(data);
 		message(data, philo, "is thinking");
+	}
+}
+
+void	eating(t_data *data, t_philo philo)
+{
+	if (philo.nb_philo % 2 == 0)
+	{
+		philo_pair(data, philo);
+	}
+	else
+	{
+		usleep(10);
+		philo_impair(data, philo);
 	}
 }
 

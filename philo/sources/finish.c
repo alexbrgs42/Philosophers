@@ -6,11 +6,20 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 18:55:45 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/19 12:47:12 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:09:12 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+
+void	single_philo(t_data *data, t_philo philo)
+{
+	if (philo.total == 1)
+	{
+		usleep(philo.ttd * 1000);
+		philo_died(data, philo);
+	}
+}
 
 void	check_for_dead(t_data *data)
 {
@@ -32,7 +41,7 @@ void	philo_died(t_data *data, t_philo philo)
 	pthread_exit(NULL);
 }
 
-void	philo_finished(t_data *data, t_philo philo)
+void	philo_finished(t_data *data)
 {
 	pthread_mutex_lock(&(data->mutex_died));
 	data->died = 1;
@@ -42,7 +51,7 @@ void	philo_finished(t_data *data, t_philo philo)
 
 void	about_to_die(t_data *data, t_philo philo)
 {
-	while (get_time() - philo.last_meal < philo.ttd)
+	while ((int)(get_time() - philo.last_meal) < philo.ttd)
 		usleep(100);
 	philo_died(data, philo);
 }

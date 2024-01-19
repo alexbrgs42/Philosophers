@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:53:40 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/19 14:00:56 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:06:02 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
+# include <limits.h>
 # include <string.h>
 # include <sys/time.h>
 # include <pthread.h>
@@ -58,14 +59,15 @@ typedef struct s_philo
 void	take_fork(t_data *data, t_philo philo, int first_fork, int second_fork);
 void	philo_pair(t_data *data, t_philo philo);
 void	philo_impair(t_data *data, t_philo philo);
-void	eating(t_data *data, t_philo philo);
-void	increment_number_meals(t_data *data, t_philo philo, int *i);
+int		check_loop(t_data *data, int first_fork, int second_fork);
+int		count_free_forks(t_data *data, int first_fork, int second_fork);
 
 // finish.c
 
+void	single_philo(t_data *data, t_philo philo);
 void	check_for_dead(t_data *data);
 void	philo_died(t_data *data, t_philo philo);
-void	philo_finished(t_data *data, t_philo philo);
+void	philo_finished(t_data *data);
 void	about_to_die(t_data *data, t_philo philo);
 
 // freeing.c
@@ -93,8 +95,13 @@ int		ft_strlen(char *str);
 size_t	get_time(void);
 int		ft_atoi(char *str, int *number);
 
+// count_meals.c
+
+void	increment_number_meals(t_data *data, t_philo philo, int *i);
+
 // main.c
 
+void	eating(t_data *data, t_philo philo);
 void	*routine(void *data_void);
 
 #endif
