@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:21:13 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/19 18:24:47 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/21 13:15:01 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ void	free_semaphores_bis(t_data *data, int i)
 {
 	if (i-- > 0)
 	{
-		sem_close(data->sem_free_forks);
-		sem_unlink("/sem_free_forks");
+		sem_close(data->sem_forks);
+		sem_unlink("/sem_forks");
 	}
 	if (i-- > 0)
 	{
-		sem_close(data->sem_forks);
-		sem_unlink("/sem_forks");
+		sem_close(data->sem_last_meal);
+		sem_unlink(data->sem_last_meal);
 	}
 }

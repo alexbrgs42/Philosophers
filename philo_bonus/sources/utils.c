@@ -6,13 +6,13 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:20:21 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/19 19:04:06 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/21 13:06:24 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo_bonus.h"
 
-void	message(t_philo philo, char *str)
+void	message(t_philo_parent *philo_parent, t_philo_child philo, char *str)
 {
 	
 }

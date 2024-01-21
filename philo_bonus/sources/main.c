@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 17:39:34 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/19 18:42:49 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/21 13:31:04 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 			if (data.pid[i] == 0)
 				start(&data, i);
 			else if (data.pid[i] == -1)
-				; // ...
+				printf("help\n"); // ...
 			else
 				i++;
 		}

@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 17:55:31 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/19 18:50:59 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/21 13:14:07 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ int init_semaphores(t_data *data)
 	data->sem_printf = sem_open("/sem_printf", O_CREAT | O_EXCL, 0644, 1);
 	if (data->sem_printf == SEM_FAILED)
 		return (free_semaphores(data, 3));
-	data->sem_free_forks = sem_open("/sem_free_forks", O_CREAT | O_EXCL, 0644, 1);
-	if (data->sem_forks == SEM_FAILED)
-		return (free_semaphores(data, 4));
 	data->sem_forks = sem_open("/sem_forks", O_CREAT | O_EXCL, 0644,
 		data->number_of_philosophers);
 	if (data->sem_forks == SEM_FAILED)
+		return (free_semaphores(data, 4));
+	data->sem_last_meal = sem_open("/sem_last_meal", O_CREAT | O_EXCL, 0644, 1);
+	if (data->sem_last_meal == SEM_FAILED)
 		return (free_semaphores(data, 5));
 	return (1);
 }
@@ -53,8 +53,8 @@ int init_numbers(t_data *data, char *argv[])
 	int	return_val;
 
 	return_val = 0;
-	data->died = 0;
-	data->philo_done = 0;
+	data->shared_died = 0;
+	data->shared_philo_done = 0;
 	return_val += ft_atoi(argv[1], &(data->number_of_philosophers));
 	return_val += ft_atoi(argv[2], &(data->time_to_die));
 	return_val += ft_atoi(argv[3], &(data->time_to_eat));
@@ -65,7 +65,7 @@ int init_numbers(t_data *data, char *argv[])
 	else
 	{
 		return_val++;
-		data->philo_done = -1;
+		data->shared_philo_done = -1;
 		data->number_of_times_each_philosopher_must_eat = -1;
 	}
 	if (data->number_of_philosophers == 0 || data->time_to_die == 0
