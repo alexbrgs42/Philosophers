@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:21:13 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/21 13:15:01 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/22 11:39:40 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void    final_free(t_data *data)
 {
-    free_semaphores(data, NB_SEM);
-    free(data->pid);
+	free_semaphores(data, NB_SEM);
+	free(data->pid);
     // ...
 }
 
@@ -55,6 +55,16 @@ void	free_semaphores_bis(t_data *data, int i)
 	if (i-- > 0)
 	{
 		sem_close(data->sem_last_meal);
-		sem_unlink(data->sem_last_meal);
+		sem_unlink("/sem_last_meal");
+	}
+	if (i-- > 0)
+	{
+		sem_close(data->sem_free_forks);
+		sem_unlink("/sem_free_forks");
+	}
+	if (i-- > 0)
+	{
+		sem_close(data->sem_parent_struct);
+		sem_unlink("/sem_parent_struct");
 	}
 }

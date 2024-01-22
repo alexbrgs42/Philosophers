@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 17:39:34 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/21 13:31:04 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/22 16:03:22 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,18 @@ int main(int argc, char *argv[])
 {
 	t_data	data;
 	int		i;
+	int		status;
 
 	i = 0;
+	status = 0;
+	sem_unlink("/sem_died");
+	sem_unlink("/sem_init");
+	sem_unlink("/sem_meals");
+	sem_unlink("/sem_printf");
+	sem_unlink("/sem_forks");
+	sem_unlink("/sem_last_meal");
+	sem_unlink("/sem_free_forks");
+	sem_unlink("/sem_parent_struct");
 	if (argc == 5 || argc == 6)
 	{
 		if (init_data(&data, argv) == 0)
@@ -34,7 +44,15 @@ int main(int argc, char *argv[])
 		}
 		i = 0;
 		while (i < data.number_of_philosophers)
-			waitpid(data.pid[i++], NULL, 0);
+		{
+			waitpid(data.pid[i++], &status, 0);
+			if (status == -2)
+			{
+				while (i < data.number_of_philosophers)
+					kill(data.pid[i++], SIGTERM);
+			}
+		}
+		printf("done\n");
 		final_free(&data);
     }
 	return (0);

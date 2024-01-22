@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
+/*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 16:55:04 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/21 19:31:26 by utilisateur      ###   ########.fr       */
+/*   Updated: 2024/01/22 16:02:56 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,13 @@
 # include <sys/wait.h>
 # include <sys/time.h>
 # include <semaphore.h>
+# include <signal.h>
+# include <errno.h>
 
 typedef struct s_data
 {
 	int		*pid;
+	int		shared_free_forks;
 	int		shared_died;
 	int		number_of_philosophers;
 	int		time_to_die;
@@ -48,13 +51,16 @@ typedef struct s_data
 	sem_t	*sem_meals; // bin
 	sem_t	*sem_printf; // bin
 	sem_t	*sem_forks;
+	sem_t	*sem_free_forks; // bin
 	sem_t	*sem_last_meal; // bin
+	sem_t	*sem_parent_struct;
 }	t_data;
 // mqke sem_t tabs for each philo process if not dealing with t_data data structure
 
 typedef struct s_philo_parent
 {
 	int			nb_philo;
+	int			*shared_free_forks; // adress of var in t_data
 	int			shared_died; // shared
 	int			tte;
 	int			tts;
@@ -70,6 +76,7 @@ typedef struct s_philo_parent
 	sem_t		*sem_meals; // bin
 	sem_t		*sem_printf; // bin
 	sem_t		*sem_forks;
+	sem_t		*sem_free_forks; // bin
 	sem_t		*sem_last_meal; // bin
 }	t_philo_parent;
 
@@ -94,12 +101,19 @@ int		init_numbers(t_data *data, char *argv[]);
 
 // freeing.c
 
+void    final_free(t_data *data);
 int		free_semaphores(t_data *data, int i);
 void	free_semaphores_bis(t_data *data, int i);
 
 // start.c
 
 int		init_philo(t_data *data, t_philo_parent *philo, int nb_philo);
+t_philo_parent	*copies_t_philo(t_philo_child *philo, void *void_philo);
+void	philo_odd(t_philo_parent *philo_parent, t_philo_child philo);
+void	philo_eats(t_philo_parent *philo_parent, t_philo_child philo);
+void	eating(t_philo_parent *philo_parent, t_philo_child philo);
+void	is_anyone_dead(t_philo_parent *philo_parent, t_philo_child philo);
+void	*routine(void *void_philo);
 void	start(t_data *data, int nb_philo);
 
 // utils.c
