@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   start.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:25:34 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/21 14:11:42 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/21 19:30:50 by utilisateur      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,13 @@ void	eating(t_philo_parent *philo_parent, t_philo_child philo)
 	philo_eats(philo_parent, philo);
 }
 
+void	is_anyone_dead(t_philo_parent *philo_parent, t_philo_child *philo)
+{
+	sem_wait(philo_parent->sem_died);
+
+	sem_post(philo_parent->sem_died);
+}
+
 void	*routine(void *void_philo)
 {
 	int		i;
@@ -135,9 +142,9 @@ void	*routine(void *void_philo)
 		message(philo_parent, philo, "is sleeping"); //
 		if ((int)(get_time() - philo.last_meal + philo.tts) > philo.ttd)
 			finish(philo); //
-		is_anyone_dead(philo_parent); //
+		is_anyone_dead(philo_parent, &philo); //
 		usleep(philo.tts * 1000);
-		is_anyone_dead(philo_parent);
+		is_anyone_dead(philo_parent, &philo);
 		message(philo_parent, philo, "is thinking");
 	}
 }

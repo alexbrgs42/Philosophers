@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: utilisateur <utilisateur@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 16:55:04 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/21 13:41:18 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/21 19:31:26 by utilisateur      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_data
 	sem_t	*sem_forks;
 	sem_t	*sem_last_meal; // bin
 }	t_data;
+// mqke sem_t tabs for each philo process if not dealing with t_data data structure
 
 typedef struct s_philo_parent
 {
