@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:25:34 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/22 16:00:40 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/22 17:43:17 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,9 +209,8 @@ void	*routine(void *void_philo)
 	}
 }
 
-void	free_parent_thread(t_data *data, t_philo_parent *philo)
+void	free_parent_thread(t_philo_parent *philo)
 {
-	free(data->pid);
 	sem_close(philo->sem_parent_struct);
 	sem_close(philo->sem_died);
 	sem_close(philo->sem_meals);
@@ -223,6 +222,27 @@ void	free_parent_thread(t_data *data, t_philo_parent *philo)
 	exit(-2);
 }
 
+void	free_data(t_data *data)
+{
+	free(data->pid);
+	sem_close(data->sem_parent_struct);
+	sem_close(data->sem_init);
+	sem_close(data->sem_died);
+	sem_close(data->sem_meals);
+	sem_close(data->sem_printf);
+	sem_close(data->sem_forks);
+	sem_close(data->sem_free_forks);
+	sem_close(data->sem_last_meal);
+	// sem_unlink("/sem_died");
+	// sem_unlink("/sem_init");
+	// sem_unlink("/sem_meals");
+	// sem_unlink("/sem_printf");
+	// sem_unlink("/sem_forks");
+	// sem_unlink("/sem_last_meal");
+	// sem_unlink("/sem_free_forks");
+	// sem_unlink("/sem_parent_struct");
+}
+
 void    start(t_data *data, int nb_philo)
 {
 	t_philo_parent	philo_parent;
@@ -232,6 +252,8 @@ void    start(t_data *data, int nb_philo)
 		printf("help2\n"); // ...
 	philo_parent.shared_last_meal = philo_parent.start_time + (size_t)1000;
 	pthread_create(&(philo_parent.philo_thread), NULL, routine, (void *)(&philo_parent)); // check for error
+	pthread_detach(philo_parent.philo_thread);
+	free_data(data);
 	while (get_time() - philo_parent.start_time < 1000)
 		;
 	while (1)
@@ -249,7 +271,7 @@ void    start(t_data *data, int nb_philo)
 			// philo_parent.shared_died = (last_meal >= (size_t)philo_parent.ttd) + 1; // = 2 si lui meurt
 			// data->shared_died = 1;
 			sem_post(philo_parent.sem_died);
-			free_parent_thread(data, &philo_parent);
+			free_parent_thread(&philo_parent);
 		}
 		sem_post(philo_parent.sem_died);
 		usleep(10);

@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 17:55:31 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/22 12:55:46 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/22 17:30:05 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int init_data(t_data *data, char *argv[])
 		return (printf("help3\n"));
 	if (init_semaphores(data) == 0)
 		return (printf("help4\n"));
-	printf("%d\n", data->number_of_philosophers);
 	data->pid = malloc(data->number_of_philosophers * sizeof(int));
 	if (data->pid == NULL)
 		return (free_semaphores(data, NB_SEM));

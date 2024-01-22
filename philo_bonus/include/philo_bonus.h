@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 16:55:04 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/22 16:02:56 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/22 17:39:06 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # define PHILO_BONUS_H
 
 # ifndef NB_SEM
-#  define NB_SEM 6
+#  define NB_SEM 8
 # endif
 
 # include <stdlib.h>

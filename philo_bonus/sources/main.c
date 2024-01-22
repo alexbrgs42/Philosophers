@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 17:39:34 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/22 16:03:22 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/22 17:34:26 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ int main(int argc, char *argv[])
 			waitpid(data.pid[i++], &status, 0);
 			if (status == -2)
 			{
+				printf("%d\n", i - 1);
 				while (i < data.number_of_philosophers)
-					kill(data.pid[i++], SIGTERM);
+					kill(data.pid[i++], SIGKILL);
 			}
 		}
 		printf("done\n");
