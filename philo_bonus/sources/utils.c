@@ -6,17 +6,17 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:20:21 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/22 11:17:58 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:17:54 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo_bonus.h"
 
-void	message(t_philo_parent *philo_parent, t_philo_child philo, char *str)
+void	message(t_philo_parent *philo_parent, char *str)
 {
 	sem_wait(philo_parent->sem_printf);
 	printf("%zu %d %s\n", get_time() - philo_parent->start_time - 1000,
-		philo.nb_philo, str);
+		philo_parent->nb_philo, str);
 	sem_post(philo_parent->sem_printf);
 }
 

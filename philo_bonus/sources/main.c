@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 17:39:34 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/22 17:34:26 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:29:40 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,33 @@ int main(int argc, char *argv[])
 	t_data	data;
 	int		i;
 	int		status;
+	char	 *str;
 
 	i = 0;
 	status = 0;
-	sem_unlink("/sem_died");
-	sem_unlink("/sem_init");
-	sem_unlink("/sem_meals");
-	sem_unlink("/sem_printf");
-	sem_unlink("/sem_forks");
-	sem_unlink("/sem_last_meal");
-	sem_unlink("/sem_free_forks");
-	sem_unlink("/sem_parent_struct");
+	sem_unlink(SEM_DEATH_VAR);
+	sem_unlink(SEM_INIT);
+	sem_unlink(SEM_MEALS);
+	sem_unlink(SEM_PRINTF);
+	sem_unlink(SEM_FORKS);
+	sem_unlink(SEM_LAST_MEAL);
+	sem_unlink(SEM_PARENT_STRUCT);
+	while (i < 10)
+	{
+		str = ft_strjoin(SEM_DEATH, i);
+		if (str == NULL)
+			return (-1);
+		sem_unlink(str);
+		free(str);
+		i++;
+	}
+	sem_unlink(SEM_TAKES_FORKS);
+	i = 0;
 	if (argc == 5 || argc == 6)
 	{
 		if (init_data(&data, argv) == 0)
 			return (1);
+		// bloquer toutes les semaphores
 		while (i < data.number_of_philosophers)
 		{
 			data.pid[i] = fork();
