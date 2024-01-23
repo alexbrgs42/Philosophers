@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 16:55:04 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/23 20:29:51 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/24 00:05:23 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # define PHILO_BONUS_H
 
 # ifndef NB_SEM
-#  define NB_SEM 9
+#  define NB_SEM 11
 # endif
 
 # ifndef MACROS
@@ -30,9 +30,7 @@
 #  define SEM_PARENT_STRUCT "/sem_parent_struct"
 #  define SEM_DEATH "/sem_death"
 #  define SEM_TAKES_FORKS "/sem_takes_forks"
-
-#  define DEATH 1
-#  define MAX_MEALS 2
+#  define SEM_NB_MEALS "/sem_nb_meals"
 
 # endif
 
@@ -58,7 +56,7 @@ typedef struct s_data
 	int			time_to_eat;
 	int			time_to_sleep;
 	int			number_of_times_each_philosopher_must_eat;
-	pthread_t	death_thread;
+	pthread_t	thread_meals;
 	size_t		start_time;
 	sem_t		*sem_init; // bin
 	sem_t		*sem_death_var; // bin
@@ -67,15 +65,16 @@ typedef struct s_data
 	sem_t		*sem_forks;
 	sem_t		*sem_last_meal; // bin
 	sem_t		*sem_parent_struct;
-	sem_t		**sem_death; // bin for each sem_death[i]
-	sem_t		*sem_takes_forks;
+	sem_t		*sem_death; // bin
+	sem_t		*sem_takes_forks; // bin
+	sem_t		*sem_nb_meals; // bin
 }	t_data;
 // make sem_t tabs for each philo process if not dealing with t_data data structure
 
 typedef struct s_philo_parent
 {
 	int			nb_philo;
-	int			shared_died; // shared
+	int			shared_died; // shared 1 si this philo died ou 2 sinon
 	int			tte;
 	int			tts;
 	int			ttd;
@@ -89,18 +88,19 @@ typedef struct s_philo_parent
 	pthread_t	meals_thread;
 	sem_t		*sem_parent_struct; // closed at beginning by each child process
 	sem_t		*sem_death_var; // bin - for parent thread and main process
-	sem_t		*sem_meals; // bin
+	sem_t		*sem_meals;
 	sem_t		*sem_printf; // bin
 	sem_t		*sem_forks;
 	sem_t		*sem_last_meal; // bin
-	sem_t		*sem_death; // data->sem_death[nb_philo]
-	sem_t		*sem_takes_forks;
+	sem_t		*sem_death; // bin
+	sem_t		*sem_takes_forks; // bin
+	sem_t		*sem_nb_meals; // bin
 }	t_philo_parent;
 
 typedef struct s_philo_child
 {
 	int			nb_philo;
-	int			died; // update shared_died if modif
+	int			total_meals;
 	int			tte;
 	int			tts;
 	int			ttd;
@@ -117,7 +117,6 @@ int		init_semaphores(t_data *data);
 int		init_numbers(t_data *data, char *argv[]);
 void	ft_putnbr_tab(char *res, int i, int *j);
 char	*ft_strjoin(char *start, int i);
-int		close_sem_death(t_data *data, int i, int unlinking);
 int		init_sem_death_tab(t_data *data);
 int		nb_digits(int i);
 
@@ -137,11 +136,12 @@ void	eating(t_philo_parent *philo_parent, t_philo_child philo);
 void	is_anyone_dead(t_philo_parent *philo_parent);
 void	*routine(void *void_philo);
 void	start(t_data *data, int nb_philo);
+void	free_data(t_data *data);
 int		close_semaphores(t_philo_parent *philo, int i);
 
 // utils.c
 
-void	message(t_philo_parent *philo_parent, char *str);
+void	message(t_philo_parent *philo_parent, char *str, size_t start_time);
 int		ft_strlen(char *str);
 size_t	get_time(void);
 int		ft_atoi(char *str, int *num);
