@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:25:34 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/23 11:29:59 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/23 20:20:28 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,11 +151,11 @@ void	*routine(void *void_philo)
 		sem_wait(philo_parent->sem_meals);
 		philo_parent->nb_meals++;
 		sem_post(philo_parent->sem_meals);
-		is_anyone_dead(philo_parent); // change
+		is_anyone_dead(philo_parent);
 		message(philo_parent, "is sleeping");
 		if ((int)(get_time() - philo.last_meal + philo.tts) > philo.ttd)
 			pthread_exit(NULL);
-		is_anyone_dead(philo_parent); // change
+		is_anyone_dead(philo_parent);
 		usleep(philo.tts * 1000);
 		is_anyone_dead(philo_parent);
 		message(philo_parent, "is thinking");

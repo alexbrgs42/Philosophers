@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 16:55:04 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/23 11:18:07 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/23 20:29:51 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,23 @@
 
 typedef struct s_data
 {
-	int		*pid;
-	int		number_of_philosophers;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		number_of_times_each_philosopher_must_eat;
-	size_t	start_time;
-	sem_t	*sem_init; // bin
-	sem_t	*sem_death_var; // bin
-	sem_t	*sem_meals; // bin
-	sem_t	*sem_printf; // bin
-	sem_t	*sem_forks;
-	sem_t	*sem_last_meal; // bin
-	sem_t	*sem_parent_struct;
-	sem_t	**sem_death; // bin for each sem_death[i]
-	sem_t	*sem_takes_forks;
+	int			*pid;
+	int			number_of_philosophers;
+	int			time_to_die;
+	int			time_to_eat;
+	int			time_to_sleep;
+	int			number_of_times_each_philosopher_must_eat;
+	pthread_t	death_thread;
+	size_t		start_time;
+	sem_t		*sem_init; // bin
+	sem_t		*sem_death_var; // bin
+	sem_t		*sem_meals; // bin
+	sem_t		*sem_printf; // bin
+	sem_t		*sem_forks;
+	sem_t		*sem_last_meal; // bin
+	sem_t		*sem_parent_struct;
+	sem_t		**sem_death; // bin for each sem_death[i]
+	sem_t		*sem_takes_forks;
 }	t_data;
 // make sem_t tabs for each philo process if not dealing with t_data data structure
 
@@ -133,7 +134,7 @@ t_philo_parent	*copies_t_philo(t_philo_child *philo, void *void_philo);
 void	philo_odd(t_philo_parent *philo_parent, t_philo_child philo);
 void	philo_eats(t_philo_parent *philo_parent, t_philo_child philo);
 void	eating(t_philo_parent *philo_parent, t_philo_child philo);
-void	is_anyone_dead(t_philo_parent *philo_parent, t_philo_child philo);
+void	is_anyone_dead(t_philo_parent *philo_parent);
 void	*routine(void *void_philo);
 void	start(t_data *data, int nb_philo);
 int		close_semaphores(t_philo_parent *philo, int i);
