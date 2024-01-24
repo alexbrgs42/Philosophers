@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:53:40 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/19 16:06:02 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/24 20:25:19 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_data
 	int				*forks;
 	pthread_t		*philo;
 	int				died;
+	int				bool_printf;
 	int				counter;
 	int				number_of_philosophers;
 	int				time_to_die;
@@ -57,22 +58,21 @@ typedef struct s_philo
 // eating.c
 
 void	take_fork(t_data *data, t_philo philo, int first_fork, int second_fork);
-void	philo_pair(t_data *data, t_philo philo);
-void	philo_impair(t_data *data, t_philo philo);
+void	eating(t_data *data, t_philo philo);
 int		check_loop(t_data *data, int first_fork, int second_fork);
 int		count_free_forks(t_data *data, int first_fork, int second_fork);
 
 // finish.c
 
 void	single_philo(t_data *data, t_philo philo);
-void	check_for_dead(t_data *data);
+void	check_for_dead(t_data *data, int first_fork, int second_fork);
 void	philo_died(t_data *data, t_philo philo);
 void	philo_finished(t_data *data);
 void	about_to_die(t_data *data, t_philo philo);
 
 // freeing.c
 
-int		first_free(t_data *data, int pr, int str, int fo);
+int		first_free(t_data *data, int nb);
 int		final_free(t_data *data, int nb_thread, int join, int return_val);
 
 //initialization.c
@@ -90,7 +90,7 @@ int		init_mutex_forks(t_data *data);
 // utils.c
 
 void	message(t_data *data, t_philo philo, char *str);
-void	ft_usleep(size_t t);
+void	ft_usleep(t_data *data, size_t t, int first_fork, int second_fork);
 int		ft_strlen(char *str);
 size_t	get_time(void);
 int		ft_atoi(char *str, int *number);
@@ -101,7 +101,8 @@ void	increment_number_meals(t_data *data, t_philo philo, int *i);
 
 // main.c
 
-void	eating(t_data *data, t_philo philo);
+int		check_loop(t_data *data, int first_fork, int second_fork);
+int		ft_strcmp(char *s1, char *s2);
 void	*routine(void *data_void);
 
 #endif

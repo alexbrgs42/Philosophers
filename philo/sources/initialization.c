@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 21:03:54 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/19 14:22:04 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/24 20:15:19 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,21 @@ int	init_data(t_data *data, char *argv[])
 {
 	if (init_numbers(data, argv) == 0)
 		return (0);
+	data->forks = NULL;
+	data->philo = NULL;
 	if (init_forks(data) == 0)
 		return (0);
 	if (pthread_mutex_init(&(data->mutex_printf), NULL) != 0)
-		return (first_free(data, 0, 0, 0));
+		return (first_free(data, 0));
 	if (pthread_mutex_init(&(data->mutex_struct), NULL) != 0)
-		return (first_free(data, 1, 0, 0));
+		return (first_free(data, 1));
 	if (pthread_mutex_init(&(data->mutex_died), NULL) != 0)
-		return (first_free(data, 1, 1, 0));
+		return (first_free(data, 2));
 	if (pthread_mutex_init(&(data->mutex_meals), NULL) != 0)
-	{
-		pthread_mutex_destroy(&(data->mutex_died));
-		return (first_free(data, 1, 1, 1));
-	}
+		return (first_free(data, 3));
 	data->philo = malloc(data->number_of_philosophers * sizeof(pthread_t));
 	if (data->philo == NULL)
-	{
-		pthread_mutex_destroy(&(data->mutex_died));
-		pthread_mutex_destroy(&(data->mutex_meals));
-		return (first_free(data, 1, 1, 1));
-	}
+		return (first_free(data, 4));
 	return (1);
 }
 
@@ -47,6 +42,7 @@ int	init_numbers(t_data *data, char *argv[])
 	data->counter = 0;
 	data->died = 0;
 	data->philo_done = 0;
+	data->bool_printf = 1;
 	return_val += ft_atoi(argv[1], &(data->number_of_philosophers));
 	return_val += ft_atoi(argv[2], &(data->time_to_die));
 	return_val += ft_atoi(argv[3], &(data->time_to_eat));

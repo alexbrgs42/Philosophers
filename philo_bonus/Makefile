@@ -2,7 +2,11 @@ SRC =	sources/main.c \
 		sources/freeing.c \
 		sources/initialization.c \
 		sources/start.c \
-		sources/utils.c
+		sources/utils.c \
+		sources/free_philo.c \
+		sources/init_philo.c \
+		sources/thread_routine.c \
+		sources/utils_philo.c 
 
 OBJ = ${SRC:.c=.o}
 

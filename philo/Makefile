@@ -11,7 +11,7 @@ OBJ = ${SRC:.c=.o}
 
 CC = cc
 
-FLAGS = -Wall -Werror -Wextra -pthread
+FLAGS = -Wall -Werror -Wextra -pthread -g3
 
 NAME = philo
 

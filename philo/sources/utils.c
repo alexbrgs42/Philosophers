@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:20:21 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/19 15:46:21 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/24 20:00:42 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,30 @@
 
 void	message(t_data *data, t_philo philo, char *str)
 {
+	int	bool_printf;
+
 	pthread_mutex_lock(&(data->mutex_printf));
-	printf("%zu %d %s\n", get_time() - philo.start_time - 1000,
-		philo.nb_philo, str);
+	bool_printf = data->bool_printf;
+	if (bool_printf == 1)
+	{
+		printf("%zu %d %s\n", get_time() - philo.start_time - 1000,
+			philo.nb_philo, str);
+		if (ft_strcmp(str, "died") == 0)
+			data->bool_printf = 0;
+	}
 	pthread_mutex_unlock(&(data->mutex_printf));
 }
 
-void	ft_usleep(size_t t)
+void	ft_usleep(t_data *data, size_t t, int first_fork, int second_fork)
 {
 	size_t	curr;
 
 	curr = get_time();
 	while (get_time() - curr < t)
+	{
+		check_for_dead(data, first_fork, second_fork);
 		usleep(100);
+	}
 }
 
 int	ft_strlen(char *str)
