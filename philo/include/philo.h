@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:53:40 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/24 20:25:19 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/24 22:44:01 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_data
 	int				time_to_sleep;
 	int				number_of_times_each_philosopher_must_eat;
 	int				philo_done;
+	int				creation;
 	size_t			start_time;
 	pthread_mutex_t	mutex_struct;
 	pthread_mutex_t	mutex_died;
@@ -42,6 +43,7 @@ typedef struct s_data
 	pthread_mutex_t	*mutex_forks;
 	pthread_mutex_t	*mutex_forks_var;
 	pthread_mutex_t	mutex_begin;
+	pthread_mutex_t	mutex_create;
 }	t_data;
 
 typedef struct s_philo
@@ -89,7 +91,7 @@ int		init_mutex_forks(t_data *data);
 
 // utils.c
 
-void	message(t_data *data, t_philo philo, char *str);
+void	message(t_data *data, t_philo philo, char *str, int boolean);
 void	ft_usleep(t_data *data, size_t t, int first_fork, int second_fork);
 int		ft_strlen(char *str);
 size_t	get_time(void);

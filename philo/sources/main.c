@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:42:01 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/24 20:46:52 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/24 22:53:54 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,21 @@ void	*routine(void *data_void)
 	pthread_mutex_lock(&(((t_data *) data_void)->mutex_struct));
 	data = (t_data *) data_void;
 	pthread_mutex_unlock(&(data->mutex_struct));
+	pthread_mutex_lock(&(data->mutex_create));
+	pthread_mutex_unlock(&(data->mutex_create));
 	init_t_philo(data, &philo);
 	while (get_time() - philo.start_time < 1000)
 		;
-	single_philo(data, philo);
 	while (1)
 	{
 		eating(data, philo);
 		increment_number_meals(data, philo, &i);
 		philo.last_meal = get_time() - philo.tte;
-		message(data, philo, "is sleeping");
+		message(data, philo, "is sleeping", 1);
 		if ((int)(get_time() - philo.last_meal + philo.tts) > philo.ttd)
 			about_to_die(data, philo);
 		ft_usleep(data, philo.tts, -1, -1);
-		message(data, philo, "is thinking");
+		message(data, philo, "is thinking", 1);
 		usleep(20);
 	}
 }
@@ -79,10 +80,13 @@ int	main(int argc, char *argv[])
 	{
 		if (init_data(&data, argv) == 0)
 			return (1);
+		pthread_mutex_lock(&(data.mutex_create));
 		while (i < data.number_of_philosophers)
 			if (pthread_create(&(data.philo[i++]), NULL,
 					&routine, (void *)(&data)) != 0)
 				final_free(&data, i - 1, 1, 0);
+		data.creation = 1;
+		pthread_mutex_unlock(&(data.mutex_create));
 		i = 0;
 		while (i < data.number_of_philosophers)
 			pthread_join(data.philo[i++], NULL);
@@ -92,6 +96,6 @@ int	main(int argc, char *argv[])
 }
 
 /*
-Arreter d'afficher des messages avec un booleen des qu'un philo meurt
-ou qu'ils ont tous finis de manger
+Protect if a thread fails with a mutex and a bool
+(success or fail -> if fail, pthread_exit)
 */

@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:59:33 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/19 16:06:27 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/24 22:27:19 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	increment_number_meals(t_data *data, t_philo philo, int *i)
 	if (data->philo_done == data->number_of_philosophers)
 	{
 		pthread_mutex_unlock(&(data->mutex_meals));
-		message(data, philo, "is sleeping");
+		message(data, philo, "is sleeping", 0);
 		philo_finished(data);
 	}
 	pthread_mutex_unlock(&(data->mutex_meals));

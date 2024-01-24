@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 21:03:54 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/24 20:15:19 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/24 22:48:49 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	init_data(t_data *data, char *argv[])
 		return (first_free(data, 2));
 	if (pthread_mutex_init(&(data->mutex_meals), NULL) != 0)
 		return (first_free(data, 3));
+	if (pthread_mutex_init(&(data->mutex_create), NULL) != 0)
+		return (first_free(data, 4));
 	data->philo = malloc(data->number_of_philosophers * sizeof(pthread_t));
 	if (data->philo == NULL)
 		return (first_free(data, 4));
@@ -86,6 +88,11 @@ int	init_forks(t_data *data)
 void	init_t_philo(t_data *data, t_philo *philo)
 {
 	pthread_mutex_lock(&(data->mutex_struct));
+	if (data->creation == 0)
+	{
+		pthread_mutex_unlock(&(data->mutex_struct));
+		pthread_exit(NULL);
+	}
 	philo->tts = data->time_to_sleep;
 	philo->tte = data->time_to_eat;
 	philo->ttd = data->time_to_die;

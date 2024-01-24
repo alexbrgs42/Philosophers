@@ -6,13 +6,13 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:20:21 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/24 20:00:42 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/24 22:29:25 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
 
-void	message(t_data *data, t_philo philo, char *str)
+void	message(t_data *data, t_philo philo, char *str, int boolean)
 {
 	int	bool_printf;
 
@@ -22,7 +22,7 @@ void	message(t_data *data, t_philo philo, char *str)
 	{
 		printf("%zu %d %s\n", get_time() - philo.start_time - 1000,
 			philo.nb_philo, str);
-		if (ft_strcmp(str, "died") == 0)
+		if (ft_strcmp(str, "died") == 0 || boolean == 0)
 			data->bool_printf = 0;
 	}
 	pthread_mutex_unlock(&(data->mutex_printf));
