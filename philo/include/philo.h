@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 13:53:40 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/24 22:44:01 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:35:34 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ int		ft_atoi(char *str, int *number);
 // count_meals.c
 
 void	increment_number_meals(t_data *data, t_philo philo, int *i);
+void	check_my_death(t_data *data, t_philo philo, int first_fork,
+			int second_fork);
 
 // main.c
 

@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 16:59:24 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/24 17:00:16 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:43:40 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	free_data(t_data *data)
 	sem_close(data->sem_takes_forks);
 	sem_close(data->sem_death);
 	sem_close(data->sem_increment);
+	sem_close(data->sem_start);
 }
 
 int	close_semaphores(t_philo_parent *philo, int i)

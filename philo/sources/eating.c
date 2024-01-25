@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 18:53:28 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/24 22:41:43 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:35:01 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ void	take_fork(t_data *data, t_philo philo, int first_fork, int second_fork)
 	pthread_mutex_unlock(&(data->mutex_forks_var[first_fork]));
 	message(data, philo, "has taken a fork", 1);
 	check_for_dead(data, first_fork, -1);
+	check_my_death(data, philo, first_fork, -1);
 	pthread_mutex_lock(&(data->mutex_forks[second_fork]));
 	pthread_mutex_lock(&(data->mutex_forks_var[second_fork]));
 	data->forks[second_fork] = 0;
 	pthread_mutex_unlock(&(data->mutex_forks_var[second_fork]));
+	check_my_death(data, philo, first_fork, second_fork);
 	message(data, philo, "is eating", 1);
 	ft_usleep(data, philo.tte, first_fork, second_fork);
 	pthread_mutex_unlock(&(data->mutex_forks[second_fork]));

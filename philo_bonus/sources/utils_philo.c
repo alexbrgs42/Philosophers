@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 17:03:21 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/24 17:03:34 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:49:35 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,30 @@ void	philo_eats(t_philo_parent *philo_parent, t_philo_child philo)
 	sem_post(philo_parent->sem_forks);
 }
 
+void	did_die(t_philo_parent *philo_parent, int start_time)
+{
+	message(philo_parent, "died", start_time);
+	sem_post(philo_parent->sem_death);
+}
+
 void	is_anyone_dead(t_philo_parent *philo_parent, int nb_forks, int nb)
 {
-	int	last_meal;
-	int	ttd;
+	int		last_meal;
+	size_t	start_time;
+	int		ttd;
 
 	sem_wait(philo_parent->sem_last_meal);
 	last_meal = get_time() - philo_parent->shared_last_meal;
 	sem_post(philo_parent->sem_last_meal);
 	sem_wait(philo_parent->sem_parent_struct);
 	ttd = philo_parent->ttd;
+	start_time = philo_parent->start_time;
 	sem_post(philo_parent->sem_parent_struct);
 	sem_wait(philo_parent->sem_death_var);
-	if (philo_parent->shared_died == 1 || (int)last_meal >= philo_parent->ttd)
+	if (philo_parent->shared_died == 1 || (int)last_meal >= ttd)
 	{
+		if ((int)last_meal >= ttd && philo_parent->shared_died == 0)
+			did_die(philo_parent, start_time);
 		philo_parent->shared_died = 1;
 		while (nb_forks-- > 0)
 			sem_post(philo_parent->sem_forks);

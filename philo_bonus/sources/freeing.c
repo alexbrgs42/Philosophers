@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 18:21:13 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/24 16:58:40 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:43:09 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,10 @@ void	free_semaphores_bis_bis(t_data *data, int i)
 	{
 		sem_close(data->sem_increment);
 		sem_unlink(SEM_INCREMENT);
+	}
+	if (i-- > 0)
+	{
+		sem_close(data->sem_start);
+		sem_unlink(SEM_START);
 	}
 }

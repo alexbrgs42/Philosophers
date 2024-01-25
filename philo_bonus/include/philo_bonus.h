@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 16:55:04 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/24 20:45:21 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/25 14:11:47 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PHILO_BONUS_H
 
 # ifndef NB_SEM
-#  define NB_SEM 11
+#  define NB_SEM 12
 # endif
 
 # ifndef MACROS
@@ -29,6 +29,7 @@
 #  define SEM_TAKES_FORKS "/sem_takes_forks"
 #  define SEM_NB_MEALS "/sem_nb_meals"
 #  define SEM_INCREMENT "/sem_increment"
+#  define SEM_START "/sem_start"
 # endif
 
 # include <stdlib.h>
@@ -66,6 +67,7 @@ typedef struct s_data
 	sem_t		*sem_takes_forks;
 	sem_t		*sem_nb_meals;
 	sem_t		*sem_increment;
+	sem_t		*sem_start;
 }	t_data;
 
 typedef struct s_philo_parent
@@ -155,7 +157,7 @@ void			start(t_data *data, int nb_philo);
 void			start_routines(t_data *data, t_philo_parent *philo_parent,
 					int nb_philo);
 void			end_routines(t_data *data, t_philo_parent *philo_parent,
-					int nb_philo, size_t start_time);
+					size_t start_time);
 
 // utils.c
 

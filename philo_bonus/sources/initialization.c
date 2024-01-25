@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 17:55:31 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/24 20:38:36 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:35:24 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,9 @@ int	init_semaphores_bis(t_data *data)
 	data->sem_increment = sem_open(SEM_INCREMENT, O_CREAT | O_EXCL, 0644, 1);
 	if (data->sem_increment == SEM_FAILED)
 		return (free_semaphores(data, 10));
+	data->sem_start = sem_open(SEM_START, O_CREAT | O_EXCL, 0644, 1);
+	if (data->sem_start == SEM_FAILED)
+		return (free_semaphores(data, 11));
 	return (1);
 }
 

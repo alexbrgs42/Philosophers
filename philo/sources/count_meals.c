@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 15:59:33 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/24 22:27:19 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:36:44 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,16 @@ void	increment_number_meals(t_data *data, t_philo philo, int *i)
 		philo_finished(data);
 	}
 	pthread_mutex_unlock(&(data->mutex_meals));
+}
+
+void	check_my_death(t_data *data, t_philo philo, int first_fork,
+	int second_fork)
+{
+	if ((int)(get_time() - philo.last_meal) >= philo.ttd)
+	{
+		if (second_fork != -1)
+			pthread_mutex_unlock(&(data->mutex_forks[second_fork]));
+		pthread_mutex_unlock(&(data->mutex_forks[first_fork]));
+		philo_died(data, philo);
+	}
 }

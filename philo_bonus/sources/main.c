@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 17:39:34 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/24 20:38:21 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:51:54 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,31 @@ void	set_semaphore_state(void)
 	sem_unlink(SEM_DEATH);
 	sem_unlink(SEM_NB_MEALS);
 	sem_unlink(SEM_INCREMENT);
+	sem_unlink(SEM_START);
+}
+
+void	thread_failed(t_data data, int *i)
+{
+	*i = data.number_of_philosophers;
+	sem_post(data.sem_death);
+}
+
+void	waiting(t_data *data, int i)
+{
+	if (i == data->number_of_philosophers + 1)
+	{
+		i = 0;
+		while (i < data->number_of_philosophers && data->pid[i] != -1)
+			kill(data->pid[i++], SIGKILL);
+		sem_post(data->sem_start);
+	}
+	else
+	{
+		sem_post(data->sem_start);
+		i = 0;
+		while (i < data->number_of_philosophers && data->pid[i] != -1)
+			waitpid(data->pid[i++], NULL, 0);
+	}
 }
 
 int	main(int argc, char *argv[])
@@ -37,6 +62,7 @@ int	main(int argc, char *argv[])
 		if (init_data(&data, argv) == 0)
 			return (1);
 		i = 0;
+		sem_wait(data.sem_start);
 		while (i < data.number_of_philosophers && ((i == 0)
 				|| data.pid[i - 1] != 0))
 		{
@@ -44,12 +70,10 @@ int	main(int argc, char *argv[])
 			if (data.pid[i] == 0)
 				start(&data, i);
 			else if (data.pid[i] == -1)
-				sem_post(data.sem_death);
+				thread_failed(data, &i);
 			i++;
 		}
-		i = 0;
-		while (i < data.number_of_philosophers && data.pid[i] != 0)
-			waitpid(data.pid[i++], NULL, 0);
+		waiting(&data, i);
 		final_free(&data);
 	}
 	return (0);
