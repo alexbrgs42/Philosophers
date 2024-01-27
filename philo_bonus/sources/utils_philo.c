@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 17:03:21 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/25 13:49:35 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/27 10:23:52 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	philo_eats(t_philo_parent *philo_parent, t_philo_child philo)
 	sem_post(philo_parent->sem_forks);
 }
 
-void	did_die(t_philo_parent *philo_parent, int start_time)
+void	did_die(t_philo_parent *philo_parent, size_t start_time)
 {
 	message(philo_parent, "died", start_time);
 	sem_post(philo_parent->sem_death);

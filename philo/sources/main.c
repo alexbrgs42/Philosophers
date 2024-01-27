@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 10:42:01 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/25 13:08:16 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/25 14:24:01 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,3 @@ int	main(int argc, char *argv[])
 	}
 	return (0);
 }
-
-/*
-Protect if a thread fails with a mutex and a bool
-(success or fail -> if fail, pthread_exit)
-*/

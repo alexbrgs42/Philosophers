@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/17 14:20:21 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/25 12:45:17 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/27 10:25:25 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	message(t_philo_parent *philo_parent, char *str, size_t start_time)
 {
 	sem_wait(philo_parent->sem_printf);
 	printf("%zu %d %s\n", get_time() - start_time - 1000,
-		philo_parent->nb_philo, str);
+		philo_parent->nb_philo + 1, str);
 	sem_post(philo_parent->sem_printf);
 }
 

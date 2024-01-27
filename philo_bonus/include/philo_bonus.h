@@ -6,7 +6,7 @@
 /*   By: abourgeo <abourgeo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 16:55:04 by abourgeo          #+#    #+#             */
-/*   Updated: 2024/01/25 14:11:47 by abourgeo         ###   ########.fr       */
+/*   Updated: 2024/01/27 10:24:58 by abourgeo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,13 @@ void			free_parent_thread(t_data *data, t_philo_parent *philo);
 void			free_data(t_data *data);
 int				close_semaphores(t_philo_parent *philo, int i);
 
+// freeing.c
+
+void			final_free(t_data *data);
+int				free_semaphores(t_data *data, int i);
+void			free_semaphores_bis(t_data *data, int i);
+void			free_semaphores_bis_bis(t_data *data, int i);
+
 // init_philo.c
 
 int				init_var_philo(t_data *data, t_philo_parent *philo,
@@ -130,12 +137,13 @@ int				init_semaphores(t_data *data);
 int				init_semaphores_bis(t_data *data);
 int				init_numbers(t_data *data, char *argv[]);
 
-// freeing.c
+// start.c
 
-void			final_free(t_data *data);
-int				free_semaphores(t_data *data, int i);
-void			free_semaphores_bis(t_data *data, int i);
-void			free_semaphores_bis_bis(t_data *data, int i);
+void			start_routines(t_data *data, t_philo_parent *philo_parent,
+					int nb_philo);
+void			end_routines(t_data *data, t_philo_parent *philo_parent,
+					size_t start_time);
+void			start(t_data *data, int nb_philo);
 
 // thread_routine.c
 
@@ -148,16 +156,9 @@ void			*meals_routine(void *philo_void);
 // utils_philo.c
 
 void			philo_eats(t_philo_parent *philo_parent, t_philo_child philo);
+void			did_die(t_philo_parent *philo_parent, size_t start_time);
 void			is_anyone_dead(t_philo_parent *philo_parent, int nb_forks,
 					int nb);
-
-// start.c
-
-void			start(t_data *data, int nb_philo);
-void			start_routines(t_data *data, t_philo_parent *philo_parent,
-					int nb_philo);
-void			end_routines(t_data *data, t_philo_parent *philo_parent,
-					size_t start_time);
 
 // utils.c
 
@@ -170,5 +171,7 @@ int				ft_atoi(char *str, int *num);
 // main.c
 
 void			set_semaphore_state(void);
+void			thread_failed(t_data data, int *i);
+void			waiting(t_data *data, int i);
 
 #endif
