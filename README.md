@@ -6,7 +6,7 @@ There is a fork between each of them, in total 8 forks are on the table. Philoso
 
 | | |
 | -- | --|
-| Arguments | number_of_philosophers <br>time_to_die <br>time_to_eat <br>time_to_sleep <br>number_of_times_each_philosopher_must_eat (last one optional) |
+| Arguments | number_of_philosophers <br>time_to_die <br>time_to_eat <br>time_to_sleep <br>number_of_times_each_philosopher_must_eat (this one is optional) |
 | Output | each change of state of a philosopher with its number and the timestamp in milliseconds |
 | | - _timestamp_in_ms X has taken a fork_<br> - _timestamp_in_ms X is eating_ <br> - _timestamp_in_ms X is sleeping_ <br> - _timestamp_in_ms X is thinking_ <br> - _timestamp_in_ms X died_
 
