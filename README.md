@@ -1,4 +1,4 @@
-# philosopher
+# Philosophers
 
 The philosopher problem is a really common exercice handeling multi-threading.
 Basically, we consider for example 8 philosophers around a round table eating spaghettis. Actually we don't know if they eat these with bolognese or cream... Wathever :)
