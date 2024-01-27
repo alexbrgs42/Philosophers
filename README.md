@@ -7,7 +7,6 @@ There is a fork between each of them, in total 8 forks are on the table. Philoso
 | | |
 | -- | --|
 | Arguments | number_of_philosophers, time_to_die, time_to_eat, time_to_sleep, number_of_times_each_philosopher_must_eat (last one optional) |
-
 | Output | each change of state of a philosopher with its number and the timestamp in milliseconds |
 
 * _timestamp_in_ms X has taken a fork_
